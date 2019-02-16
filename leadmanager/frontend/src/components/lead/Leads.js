@@ -5,13 +5,14 @@ import { getLeads, deleteLead } from '../../actions/leads'
 
 class Leads extends Component {
     static propTypes = {
-        leads: propTypes.array.isRequired
+        leads: propTypes.array.isRequired,
+        getLeads: propTypes.func.isRequired,
+        deleteLead: propTypes.func.isRequired,
     }
     componentDidMount() {
         this.props.getLeads()
     }
     render() {
-        console.log(this.props.leads)
         return (
             <Fragment>
                 <h2>Leads</h2>
