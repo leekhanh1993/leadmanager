@@ -22,6 +22,13 @@ class Form extends Component {
         const { name, email, message } = this.state
         const newLead = { name, email, message }
         this.props.addLead(newLead)
+            .then(res => {
+                this.setState({
+                    name: '',
+                    email: '',
+                    message: ''
+                })
+            })
     }
     render() {
         const { name, email, message } = this.state
