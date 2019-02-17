@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { GET_LEADS, DELETE_LEAD, ADD_LEAD, GET_ERRORS } from './types'
 import { createMessage, returnErrors } from './messages';
+import { tokenConfig } from "./auth"
 
 //GET LEADS
-export const getLeads = () => dispatch => {
-    axios.get("/api/leads/")
+export const getLeads = () => (dispatch, getState) => {
+    axios.get("/api/leads/", tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_LEADS,
@@ -15,12 +16,11 @@ export const getLeads = () => dispatch => {
 }
 
 //DELETE LEAD
-export const deleteLead = (id) => dispatch => {
-    axios.delete(`/api/leads/${id}/`, {
-        headers: {
-            "X-CSRFToken": csrftoken
-        }
-    })
+// headers: {
+//     "X-CSRFToken": csrftoken
+// }
+export const deleteLead = (id) => (dispatch, getState) => {
+    axios.delete(`/api/leads/${id}/`, tokenConfig(getState))
         .then(res => {
             dispatch(createMessage({ deleteLead: 'Lead Deleted' }))
             dispatch({
@@ -32,13 +32,9 @@ export const deleteLead = (id) => dispatch => {
 }
 
 //ADD LEAD
-export const addLead = (newLead) => dispatch => {
+export const addLead = (newLead) => (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-        axios.post(`/api/leads/`, newLead, {
-            headers: {
-                "X-CSRFToken": csrftoken
-            }
-        })
+        axios.post(`/api/leads/`, newLead, tokenConfig(getState))
             .then(res => {
                 dispatch(createMessage({ addLead: 'Lead Added' }))
                 dispatch({
